@@ -1,0 +1,85 @@
+
+
+Q1.What is hoisting in JavaScript, and how does it affect Playwright test execution.
+
+Hoisting is JavaScript mechanism where the variable and named function declarations are moved to the top of their scope during the compile phase , before the code is executed.
+
+1. Function declaration are fully hoisted.
+2. var variables are hoisted but initilized to undefined.
+3. let and const variables are hoisted but remain in TDZ Temporal Dead Zone.
+
+Q2. What is the difference between var, let, and const in terms of scoping and hoisting.
+
+var is function scoped and hoisted with undefined.
+let and const are block scoped but not initilized(temporal dead zone).
+
+Q3. What is Temporal Dead Zone (TDZ) in JavaScript?
+TDZ is a phase between entering a scope and the actual declaration where accesing a let and const throws reference error.
+
+
+Q4. How does trim() improve reliability in form input automation?
+
+const name = " Ravi "
+const trimmedName = name.trim()
+
+Q5. When would you use replaceAll() in test Automation?
+
+const displayPrice = await page.textContent('#price');  //Rs 1,000
+cont expectedPrice = "1000";
+
+const cleanedPrice = displayPrice.replaceAll("Rs","").replaceAll(",","");
+
+expect((cleanedPrice).toBe(expectedPrice)); 
+
+Q6.What is the differen between == and === in JavScript ? Give example where == returns true but === returns false?
+
+'5'==5; //true ('5' of datatype string is coerced to number datatype 5 )
+'5'===5;//false (string!=number)
+
+0==false; //true ( type coercion : false becomes 0)
+0===false; // false (number!=boolean)
+
+Q7. replace()
+
+const Originalurl ="http://leaftaps.com/opentaps/control/login"
+
+replace login with main 
+
+const Expectedurl ="http://leaftaps.com/opentaps/control/main"
+
+Q8 print login and opentaps from the below url:
+
+const Originalurl ="http://leaftaps.com/opentaps/control/login"
+
+
+
+Assignment Questions to work :
+
+1. print login and the opentaps string from the URL?
+
+http://leaftaps.com/opentaps/control/login
+
+2. Change the string login to main in the given URL and launch using Playwright
+
+login -> main
+
+Original URL:
+`http://leaftaps.com/crmsfa/control/login`
+
+Target URL after replacement:
+`http://leaftaps.com/crmsfa/control/main`
+
+
+JA Coding Assignment Questions :
+
+1.check if a string is a palindrome?
+input: madam
+output: madam 
+
+2.find the most frequent character in a string?
+input : javascript
+
+3.count the number of vowels in a string
+input: function
+
+
