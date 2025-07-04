@@ -1,0 +1,299 @@
+Interview Question for Playwright Fundamentals -
+
+Function
+--------
+1. What are the different types of functions in JavaScript?
+2. Explain about promise and different stages in Java script.
+
+Playwright :
+----------
+
+1. What protocol used in playwright?
+2. What do you mean by Single threaded.
+3. What is Chrome Dev Protocol?
+4. Browser Installation command. -> npx or npm
+5. Different browsers supported by Playwright.
+6. About chromium browser.
+7. What is test function in playwright 
+8. Explain about async/await?
+9.How does Playwright handle auto-waiting and retries?
+10. Write a Playwright Script to Verify Login
+
+CSS
+---
+1. What are the different types of CSS Selectors you’ve used in automation?
+
+
+***************************************************************************************************************
+
+Assignment questions :
+--------------------
+
+1. Write a function in JavaScript to check if a number is even or odd using function expression and arrow function.
+
+2. Write a Playwright test that opens salesforce website and navigate from login page to homepage and try to retrive the title.
+
+3. Identify the correct CSS selectors for the following elements:
+
+<input id="email" class="input-field" type="text" name="userEmail">
+<button class="btn submit-btn" type="submit">Submit</button>
+
+a) Select by ID
+
+b) Select by Class
+
+c) Select using attribute
+
+Write a Playwright test to locate and click the "Submit" button using:
+a) CSS selector
+
+b) getByRole // playwright locator
+
+c) XPath
+
+Assignment activity
+
+1. Explore config file by changing the fullparallel , worker, projects.
+
+2. Explore on the priority of the test execution while using a page fixture and manually launching the browser in terms of
+a. script level
+b. config level
+c. CLI Command Line Interface --Terminal
+
+
+******************************************************************************************************************
+
+Function
+---------
+
+1. What are the different types of functions in JavaScript?
+
+Answer :
+
+1. Function Declaration/ Named Function
+-----------------------------------------
+
+function greet() {
+
+}
+greet()
+
+2. Function Expression
+-----------------------
+
+const greet = function() {};
+
+greet()
+
+3. Arrow Function
+------------------
+
+const greet = () => {};
+
+()
+
+-------------------------------------------------------------------
+
+2. Explain about promise and different stages in Java script.
+
+
+A **Promise** in JavaScript is an object that represents the eventual **completion (or failure)** of an **asynchronous operation** and its resulting value.
+
+1. Pending
+The moment you write:
+
+let zeptoDelivery = new Promise((resolve, reject) => { ... });
+The Promise is in the pending state.
+
+The JavaScript engine is waiting to see if the grocery delivery succeeds (resolve) or fails (reject).
+
+2. Fulfilled (Resolved)
+If isDelivered = true, then:
+
+
+resolve("✅ Zepto delivered your groceries in 10 minutes!");
+The Promise moves from pending → fulfilled.
+
+.then() gets triggered, printing:
+
+
+✅ Zepto delivered your groceries in 10 minutes!
+3. Rejected
+If isDelivered = false, then:
+
+
+reject("❌ Zepto failed to deliver. Please try again.");
+The Promise moves from pending → rejected.
+
+.catch() gets triggered, printing:
+
+
+❌ Zepto failed to deliver. Please try again.
+
+* async/await was introduced in **ES2017**.
+* Under the hood, async functions still **return Promises**.
+* Use **`Promise.all()`** for **parallel** async operations, even with async/await.
+
+Same with async/await :
+
+async function checkDelivery() {
+  try {
+    const message = await zeptoDelivery;
+    console.log(message); // ✅ message
+  } catch (error) {
+    console.error(error); // ❌ error
+  }
+}
+
+checkDelivery();
+
+******************************************************************************************************************
+
+Playwright :
+----------
+
+### **1. What protocol is used in Playwright?**
+
+**Answer:**
+Playwright uses the **Chrome DevTools Protocol (CDP)** and also supports its own **WebSocket-based protocol** to communicate with browsers like Chromium, Firefox, and WebKit.
+
+follow up question --> what is websocket protocol?
+
+📌 Answer:
+WebSocket is a communication protocol that provides full-duplex (two-way) communication between a client (browser) and a server over a single TCP connection.
+
+🔍 Key Points (for Interviews):
+Unlike HTTP (which is request-response and one-way), WebSockets allow real-time, two-way communication.
+
+Ideal for apps like chat, live notifications, stock updates, or collaborative tools.
+
+WebSocket connections remain open, unlike HTTP which closes after each request.
+
+✅ Real-life Example:
+In Playwright, when you launch a browser, it communicates with the test runner using WebSocket, allowing commands to be sent and events to be received live.
+---
+
+### **2. What do you mean by Single Threaded?**
+
+**Answer:**
+JavaScript is **single-threaded**, meaning it executes one operation at a time, line by line, on a **single call stack**.
+Asynchronous tasks (like API calls) are handled using **event loop**, **callbacks**, **Promises**, or `async/await`.
+
+---
+
+### **3. What is Chrome DevTools Protocol (CDP)?**
+
+**Answer:**
+CDP is a low-level protocol used by tools (like Playwright, Puppeteer) to control, inspect, and debug Chromium-based browsers.
+It allows direct access to browser internals like **DOM**, **network**, **console**, etc.
+
+---
+
+### **4. Browser Installation Command — npx or npm?**
+
+**Answer:**
+
+* **Install Playwright with browsers:**
+
+ 
+  npx playwright install
+
+* This installs Chromium, Firefox, and WebKit browsers.
+* To install Playwright package:
+
+  npm install -D @playwright/test
+
+---
+
+### **5. Different Browsers Supported by Playwright**
+
+**Answer:**
+Playwright supports:
+
+* **Chromium** (Chrome, Edge)
+* **Firefox**
+* **WebKit** (Safari engine)
+
+It allows **cross-browser testing** with a single codebase.
+
+---
+
+### **6. About Chromium Browser**
+
+**Answer:**
+Chromium is an **open-source browser** developed by Google.
+Playwright uses it for **fast**, **headless** testing and full browser control.
+It is the base for **Google Chrome** and **Microsoft Edge**.
+
+---
+
+### **7. What is the `test` function in Playwright?**
+
+**Answer:**
+The `test()` function is provided by the `@playwright/test` module is a test runner.
+It defines a **test case**.
+
+
+test('verify login', async ({ page }) => {
+  await page.goto('https://example.com');
+});
+
+Used with fixtures like `page`, `browser`, etc.
+
+---
+
+### **8. Explain about `async/await`**
+
+**Answer:**
+`async/await` is a cleaner way to handle Promises in JavaScript.
+
+* `async` keyword defines a function that returns a Promise.
+* `await` pauses execution until the Promise is resolved or rejected.
+
+
+async function getData() {
+  const response = await fetch(url);
+  console.log(response);
+}
+
+Makes asynchronous code look and behave like synchronous code.
+
+### **9.How does Playwright handle auto-waiting and retries?
+
+Answer:
+
+Playwright auto-waits for elements to become visible, enabled, and attached to the DOM.
+
+It also retries failed steps (like click or fill) until timeout is hit, reducing flakiness.
+
+
+### **10 .What is the role of Browser, Context, and Page in Playwright?
+ Answer:
+
+Browser: Actual browser engine (Chromium, Firefox, WebKit)
+
+Context: Isolated environment like an incognito session
+
+Page: A single tab within a context
+
+Use Case: Parallel tests using multiple contexts or pages.
+
+### **11. Write a Playwright Script to Verify Login
+
+****************************************************************************************************
+
+CSS
+---
+
+1. What are the different types of CSS Selectors you’ve used in automation?
+Expected Answer:
+
+Universal selector: *
+
+Tag selector: input, button
+
+Class selector: .btn
+
+ID selector: #username
+
+Attribute selector: input[type="email"]

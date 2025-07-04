@@ -1,0 +1,33 @@
+Assignment questions 
+--------------------
+
+1. Write a function in JavaScript to check if a number is even or odd using function expression and arrow function.
+
+2. Write a Playwright test that opens salesforce website and navigate from login page to homepage and try to retrive the title.
+
+3. Identify the correct CSS selectors for the following elements:
+
+<input id="email" class="input-field" type="text" name="userEmail">
+<button class="btn submit-btn" type="submit">Submit</button>
+
+a) Select by ID
+
+b) Select by Class
+
+c) Select using attribute
+
+Write a Playwright test to locate and click the "Submit" button using:
+a) CSS selector
+
+b) getByRole // playwright locator
+
+c) XPath
+
+Assignment activity
+
+1. Explore config file by changing the fullparallel , worker, projects.
+
+2. Explore on the priority of the test execution while using a page fixture and manually launching the browser in terms of
+a. script level
+b. config level
+c. CLI Command Line Interface --Terminal
