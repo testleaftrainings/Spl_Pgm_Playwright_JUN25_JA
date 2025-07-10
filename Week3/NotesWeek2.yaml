@@ -1,0 +1,91 @@
+Week3 JA Topics 
+----------------
+
+1. Dropdown.
+2. Xpath locators.
+3. CSS Selectors.
+4. Playlocators.
+5. Array.
+6. Assertions.
+
+
+1. Dropdown Interview questions :
+
+### ✅ **Q1. What happens if you use `selectOption()` on a custom dropdown built with `<div>` instead of `<select>`?**
+
+### ✅ **Q2. How would you select a dropdown option that becomes visible only after hovering over another element?**
+
+### ✅ **Q3. How do you select multiple options from a `<select multiple>` dropdown?**
+
+### ✅ **Q4. How do you verify the selected option from a dropdown?**
+
+### ✅ **Q5. A dropdown option is hidden behind a scrollable container. How will you select it?*
+
+### ✅ **Q6. What’s the difference between using `.click()` on an option vs `selectOption()`? When should you choose one over the other?**
+
+### ✅ **Q7. How can you write a dynamic function to select any option from a custom dropdown?**
+
+### ✅ **Q8. How do you wait until the dropdown options are fully rendered before clicking?**
+
+********************************************************************************************************************
+
+2. Locators Interview questions :
+
+Salesforce: New Task  
+---------------------
+
+Steps :
+1. Go to https://login.salesforce.com/?locale=in 
+2. And login using credentials. [username : ravindran.ramdas@testleaf.com, password : RaviSalesTest]
+3. Click on the "+" icon (6th icon from top right corner)
+4. Choose and click "New Event" from dropdown.
+5. Now get the xpath for "Subject" label web element.
+
+Hint : New Task  younger cousin to elder
+
+
+ 
+leaftaps: First leadid
+-----------------------
+
+Steps :
+1. Go to "http://leaftaps.com/opentaps/control/login" and login.
+2. Click CRM/SFA .
+3. Click "Leads" select the first lead from the list of leads
+
+leaftaps: First leadid paren to child
+
+ 
+Myntra: Checkbox
+----------------
+
+-> Go to mynthra.com choose "MEN" from the tan available.
+-> Select the check box of "Roadster" under the brands
+
+Myntra: Checkbox elder sibling to younger sibling
+
+****************************************************************************************************************
+
+Interview Questions Arrays:
+--------------------------
+
+Q1. What is the difference between map(), forEach(), and filter()?
+
+
+Q2. What is the difference between slice() and splice()?
+
+
+Q3. How do you convert an array to a string? And string to array?
+
+
+Q4. Find all pairs in an array whose sum is a given number
+
+
+
+
+ 
+
+ 
+
+
+ 

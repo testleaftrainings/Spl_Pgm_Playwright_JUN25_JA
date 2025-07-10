@@ -1,0 +1,108 @@
+### ✅ **Q1. What happens if you use `selectOption()` on a custom dropdown built with `<div>` instead of `<select>`?**
+
+**Answer:**
+`selectOption()` only works on native `<select>` tags.
+ If you try to use it on custom dropdowns (e.g., `<div class="dropdown">`), it **won’t throw an error**, but it will **silently do nothing** or throw **"Element is not a <select>"** error.
+
+---
+
+### ✅ **Q2. How would you select a dropdown option that becomes visible only after hovering over another element?**
+
+**Answer:**
+
+```ts
+await page.locator('#menu').hover(); // Hover to reveal dropdown
+await page.locator('.dropdown-item', { hasText: 'Option 1' }).click();
+```
+
+**Explanation:**
+Use `.hover()` first, then click the visible option.
+
+---
+
+### ✅ **Q3. How do you select multiple options from a `<select multiple>` dropdown?**
+
+**Answer:**
+
+await page.selectOption('#fruits', [
+  { label: 'Apple' },
+  { value: 'banana' },
+  { index: 2 }
+]);
+
+**Explanation:**
+Pass an array of options to `selectOption()`. This works only if `<select multiple>` is present.
+
+---
+
+### ✅ **Q4. How do you verify the selected option from a dropdown?**
+
+**Answer:**
+
+const value = await page.locator('select#country').inputValue();
+expect(value).toBe('IN');
+
+**Alternative (text):**
+
+const selectedText = await page.locator('select#country >> option:checked').textContent();
+expect(selectedText).toBe('India');
+
+---
+
+### ✅ **Q5. A dropdown option is hidden behind a scrollable container. How will you select it?**
+
+**Answer:**
+
+```ts
+await page.locator('.dropdown-container').scrollIntoViewIfNeeded();
+await page.locator('.dropdown-item', { hasText: 'Hidden Option' }).click();
+```
+
+**Explanation:**
+Use `scrollIntoViewIfNeeded()` to ensure the option is in view before clicking.
+
+---
+
+### ✅ **Q6. What’s the difference between using `.click()` on an option vs `selectOption()`? When should you choose one over the other?**
+
+**Answer:**
+
+* `.click()` is used for **custom dropdowns** (built with `<ul>/<div>`)
+* `selectOption()` is for **native `<select>`** only
+
+✅ Use `.click()` for modern styled dropdowns
+✅ Use `selectOption()` for traditional forms
+
+---
+
+### ✅ **Q7. How can you write a dynamic function to select any option from a custom dropdown?**
+
+**Answer:**
+
+```ts
+async function selectCustomDropdown(page, dropdownSelector, optionText) {
+  await page.locator(dropdownSelector).click();
+  await page.locator('.dropdown-item', { hasText: optionText }).click();
+}
+
+await selectCustomDropdown(page, '#createLeadForm_generalCountryGeoId', 'Canada');
+```
+
+**Explanation:**
+Reusable method improves test readability and works for dynamic options.
+
+---
+
+### ✅ **Q8. How do you wait until the dropdown options are fully rendered before clicking?**
+
+**Answer:**
+
+```ts
+await page.locator('#dropdown').click();
+//await expect(page.locator('.dropdown-item')).toHaveCountGreaterThan(0);
+await waitForTimeout(5000);
+await page.locator('.dropdown-item', { hasText: 'India' }).click();
+```
+
+**Explanation:**
+You can wait for the dropdown options to appear using Playwright assertions or `.waitFor()` methods.
