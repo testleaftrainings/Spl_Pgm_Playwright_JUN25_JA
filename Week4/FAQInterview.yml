@@ -1,0 +1,67 @@
+### **TypeScript Interview Questions**
+
+1. What is TypeScript and how is it different from JavaScript?
+2. What are the benefits of using TypeScript in automation projects?
+3. What is type inference in TypeScript?
+4. Explain the use of "?" (optional parameter)** and "!" (non-null assertion)**.
+5. What is a union type and how do you use it?
+6. Difference between `any`, `unknown`, `never`
+7. What is type assertion and how do you do it?
+
+---
+
+### **Alerts Handling (Dialogs) in Playwright**
+
+1. How do you handle JavaScript alerts, confirms, and prompts in Playwright?
+2. What is `page.on('dialog')` and how do you use it?
+3. How do you test alert confirmation logic in Playwright?
+4. How do you assert the alert text and accept or dismiss it?
+
+**Sample Code:**
+
+page.on('dialog', async dialog => {
+  console.log(dialog.message());
+  expect(dialog.message()).toBe("I am a JS Confirm")
+  await dialog.accept();  // or dialog.dismiss();
+});
+
+---
+
+###**Frames and iFrames in Playwright**
+
+1. How do you interact with elements inside an iframe?
+2. What is the difference between `page.frame()` and `frameLocator()`?
+3. How do you handle nested iframes?
+
+**Sample Code:**
+
+const frame = page.frame({ name: 'frameName' });
+await frame?.click('text=Submit');
+
+Or with `frameLocator`:
+
+await page.frameLocator('#frameId').locator('text=Submit').click();
+
+---
+
+### 🪟 **Window and Tab Handling (Multiple Pages)**
+
+1. How do you handle new tabs or pop-up windows in Playwright?
+2. How do you switch between multiple pages (tabs)?
+3. How do you close a child window and return to the parent?
+4. How do you capture and work with multiple pages during test execution?
+
+**Sample Code:**
+
+const [newPage] = await Promise.all([
+  context.waitForEvent('page1'),
+  context.waitForEvent('page2'),
+  context.waitForEvent('page3'),
+  page.click('text=Open New Tab')
+]);
+
+
+console.log(await newPage[0].title());
+console.log(await newPage[1].title());
+---
+

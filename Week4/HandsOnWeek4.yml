@@ -1,0 +1,32 @@
+1. JS Alert Confirmation (HerokuApp)
+Website: https://the-internet.herokuapp.com/javascript_alerts
+
+Question:
+
+A confirmation alert appears when clicking the "Click for JS Confirm" button.
+You need to dismiss the alert and verify that the result text is "You clicked: Cancel".
+
+How will you handle this using Playwright?
+
+How would your code react if the alert is not handled?
+
+How do you simulate both accept and cancel flows?
+////////////////////////////////////////////////////////////////////////////////////////
+2. Multi-Tab Handling (HerokuApp)
+Website: https://the-internet.herokuapp.com/windows
+
+Question:
+
+After clicking "Click Here", a new tab opens.
+Your test must:
+
+Switch to the new tab.
+
+Verify that the heading on the new tab is "New Window".
+
+Close it and switch back to the original tab.
+
+How would you handle multiple pages/tabs?
+
+How do you wait for the new page context?
+ 
