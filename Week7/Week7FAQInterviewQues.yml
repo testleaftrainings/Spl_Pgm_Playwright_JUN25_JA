@@ -1,0 +1,216 @@
+
+1. **OOP Concepts** in TypeScript + Playwright
+2. **POM (Page Object Model)** in Playwright
+3. **Custom Fixtures** in Playwright
+
+## **Section 1 - OOP Concepts in TypeScript + Playwright**
+
+### **1. What is the difference between a class and an object in TypeScript?**
+Class :
+Blueprent / template that defines your properties and methods.
+Object :Instance of a class that contains actual data.
+
+In Playwright classes often represent pages in POM , create object for all the page instances used in tests.
+
+export class BrowserSetup{
+  private browserName : string;
+  constructor (name:string){
+    this.browserName = name;
+  }
+
+  async launchBrowser() {
+   console.log(`Launching browser: ${this.browserName}`);
+  }
+}
+
+const chrome = new BrowserSetup('Chrome');
+chrome.launchBrowser();
+
+### **2. What are Access Modifiers in TypeScript?**
+
+public, private, protected
+
+public: Accessible from anywhere.
+
+private: Accessible only within the class.
+private is accessible outside of the class using getter to read the data and setter to modify the data methods.
+
+protected: Accessible within the class and subclasses.
+
+### **3. What is Inheritance in TypeScript?**
+Inheritance allows a class to inherit properties and methods from another class, promoting code reuse. We use extends keyword to access all the data and methods from the parent class.
+
+Code :
+
+
+### **4. What is Polymorphism?**
+
+MEthod Overloading and Method Overriding are two types of polymorphism in TypeScript.
+
+
+### **5. What is Method Overloading?**
+
+Same method name with different parameters or signatures. TypeScript allows you to define multiple signatures for a single method.
+Example:
+
+class ClickHelper{
+
+click(locator:string):void;
+click(locator:string, forceClick:boolean):void;
+
+click(locator: string, forceClick?: boolean): void {
+    if (forceClick) {
+        console.log(`Force clicking on ${locator}`);
+    } else {
+        console.log(`Clicking on ${locator}`);
+    }
+}
+
+const helper = new ClickHelper();
+helper.click('button#submit'); // Normal click
+helper.click('button#submit', true); // Force click
+
+### **6. What is Method Overriding?**
+class BaseLogin{
+async login(){
+  console.log('Base login method');
+  }
+}
+
+class AdminLogin extends BaseLogin {
+async login() {
+  console.log('Admin login method');
+  }
+
+}
+
+class admin = new AdminLogin();
+admin.login(); // Output: Basin login method
+
+### **7. What is Abstraction in TypeScript?**
+Abstraction is the concept of hiding complex implementation details and showing only the essential features of an object. In TypeScript, we can achieve abstraction using abstract classes and interfaces.
+
+
+### **8. Abstract Class vs Interface**
+An abstract class can have both abstract methods (without implementation) and concrete methods (with implementation). An interface can only define method signatures without any implementation.
+
+### **9. How is `this` used in classes?**
+In TypeScript, `this` refers to the current instance of the class. It is used to access properties and methods of the class instance.
+
+Example :
+
+import { Page } from 'playwright';
+
+export class LoginPage{
+
+  constructor(page:Page) {}
+
+  async login(username:string, password:string) {
+    await this.page.fill('#username', username);
+    await this.page.fill('#password', password);
+    await this.page.click('#loginButton');
+  }
+}
+
+### **9. How is `super` used in classes?**
+In TypeScript, `super` is used to call the constructor or methods of the parent class. It allows you to access properties and methods from the parent class.
+
+Example:
+
+//Basepage.ts 
+
+import { Page } from 'playwright';
+
+export abstract class BasePage {
+  protected page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+  }
+
+  async navigateTo(url: string) {
+    await this.page.goto(url);
+  }
+}
+
+//LoginPage.ts 
+
+class LoginPage extends BasePage{
+  
+  constructor(page: Page) {
+    super(page); // Call the parent class constructor
+  }
+
+async login(username:string, password:string) {
+    await this.page.fill('#username', username);
+    await this.page.fill('#password', password);
+    await this.page.click('#loginButton');
+  }
+
+}
+## **Section 2 – POM (Page Object Model) in Playwright**
+
+### **1. What is POM?**
+A design pattern where each page is represented by a clas that contains methoda and properties related to that page. It helps in maintaining the code, improving readability, and reusability.
+### **2. Why use BasePage in POM?**
+To store reusable methods like click(), fill(), naviagte..
+
+### **3. How to handle locators in POM?**
+You can have all the locators in the page class as properties or methods. This allows you to change locators in one place without affecting the tests.
+
+### **4. Navigation between pages in POM**
+return key word `this` to access the current page instance and navigate to other pages using methods defined in the page classes.
+
+Example :
+
+async login(user:string, pass:string){
+  await this.page.fill(this.usernameInput, user);
+  await this.page.fill(this.passwordInput, pass);
+  await this.page.click(this.loginButton);
+  return new HomePage(this.page); // Return a new instance of the next page
+}
+## **Section 3 – Custom Fixtures in Playwright**
+
+### **1. What is a Fixture?**
+A fixture in Playwright is a reusable setup that allows you to define common test setup and teardown logic. It can be used to initialize resources, like browser instances, that are shared across multiple tests.
+
+### **2. How to create a custom fixture?**
+
+Example :
+//fixtures.ts
+
+
+import {test as base} from '@playwright/test';
+import {LoginPage} from './pages/LoginPage';
+import {HomePage} from './pages/HomePage';
+
+type MyFixtures = { loginPage: LoginPage, homePage: HomePage };
+
+export const test = base.extend<MyFixtures>({
+
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await use(loginPage);
+  },
+
+  homePage: async ({ page }, use) => {
+    const homePage = new HomePage(page);
+    await use(homePage);
+  },
+});
+
+
+### **3. Using the fixture**
+
+import {test} from './fixtures';
+
+test('Login Test', async ({ loginPage, homePage,... }) => {
+  await loginPage.navigateTo('https://example.com/login');
+  await loginPage.login('username', 'password');
+  await homePage.crmdfa();
+  // Add assertions here
+});
+### **4. Benefits of custom fixtures**
+
+
+
