@@ -1,0 +1,213 @@
+### **1. Visual Regression Testing**
+
+**Q:** What is visual regression testing and why is it used?
+**A:** Visual regression testing compares the current UI against a baseline image to detect unintended visual changes, ensuring the UI remains consistent after code changes.
+
+**Q:** What is the purpose of the `toHaveScreenshot()` assertion in Playwright?
+**A:** It captures a screenshot of an element or page and compares it with a stored baseline image, failing the test if differences exceed the threshold.
+
+---
+
+### **2. Device Emulation**
+
+**Q:** How do you emulate a mobile device in Playwright?
+**A:** Use built-in device descriptors from `playwright.devices`. Example:
+
+```ts
+const iPhone = devices['iPhone 12'];
+await browser.newContext({ ...iPhone });
+```
+
+**Q:** How can geolocation and permissions be simulated in device emulation?
+**A:** Set `geolocation` and `permissions` in `newContext()`:
+
+```ts
+await context.grantPermissions(['geolocation']);
+await context.setGeolocation({ latitude: 37.7749, longitude: -122.4194 });
+```
+
+---
+
+### **3. Page Object Model (POM)**
+
+**Q:** What is the Page Object Model, and why is it useful in Playwright automation?
+**A:** POM is a design pattern where page elements and actions are encapsulated in separate classes, improving maintainability, readability, and reusability.
+
+**Q:** How do you handle dynamic elements in POM?
+**A:** Use Playwright locators with dynamic selectors, parameterized functions, or regex. Example:
+
+```ts
+page.locator(`text=${dynamicText}`);
+```
+
+---
+
+### **4. Wrapper Class & Encapsulation**
+
+**Q:** What is a wrapper class in automation testing, and why use it?
+**A:** A wrapper class contains reusable utility methods (like `click`, `fill`, `waitFor`) that standardize interactions, reduce code duplication, and handle exceptions centrally.
+
+**Q:** Can wrappers be combined with POM?
+**A:** Yes. POM methods can internally call wrapper methods for consistent interaction handling.
+
+---
+
+### **5. GitHub Actions for Playwright**
+
+**Q:** How would you set up Playwright tests to run in GitHub Actions?
+**A:** Create `.github/workflows/playwright.yml` with steps to:
+
+1. Checkout code
+2. Install dependencies (`npm ci`)
+3. Install Playwright browsers (`npx playwright install --with-deps`)
+4. Run tests (`npx playwright test`)
+
+**Q:** How do you pass secrets to GitHub Actions securely?
+**A:** Store them in **Repository Settings → Secrets and Variables** and access them via `${{ secrets.SECRET_NAME }}` in workflow files.
+
+**Q:** How do you capture and store Playwright reports in GitHub Actions?
+**A:** Use `actions/upload-artifact`:
+
+```yml
+- name: Upload Playwright Report
+  uses: actions/upload-artifact@v3
+  with:
+    name: playwright-report
+    path: playwright-report
+```
+
+---
+
+### **6. Hybrid Playwright Framework (UI + API + POM)**
+
+**Q:** What is a hybrid framework, and why combine UI and API tests?
+**A:** A hybrid framework merges UI and API testing to validate both backend logic and frontend behavior, improving coverage and reducing execution time.
+
+**Q:** How do you chain API calls with UI tests in Playwright?
+**A:** Use API requests to set up data, then verify it via UI:
+
+```ts
+const response = await request.post('/createUser', { data: payload });
+await page.goto('/users');
+await expect(page.locator('text=John Doe')).toBeVisible();
+```
+
+**Q:** How do you manage waits in Playwright to avoid flaky tests?
+**A:** Use built-in waiting mechanisms like `page.locator(selector).waitFor()`, `toBeVisible()`, and auto-wait in locators instead of `waitForTimeout()`.
+
+**Q:** How do you generate combined reports for UI and API tests?
+**A:** Use a common reporting tool like **Allure** or Playwright HTML Report so both UI and API results appear in the same dashboard.
+
+$%$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+If you want, I can also **create a one-page PDF “Interview Quick Sheet”** with these Q\&A in a **table format** so learners can revise it in under 5 minutes. That would make it perfect for your session.
+
+
+
+Here’s *10 more high-priority Playwright + GitHub Actions + Hybrid Framework* interview questions with short, direct answers for your learners.
+
+---
+
+### *1. How do you run Playwright tests in headless mode in GitHub Actions?*
+
+By default, Playwright runs in headless mode in CI. You can explicitly set:
+
+ts
+await browserType.launch({ headless: true });
+
+
+or use npx playwright test --headed locally for debugging.
+
+---
+
+### **2. What is the difference between locator() and $() in Playwright?**
+
+* locator() is *recommended* — it re-finds elements on retries and supports auto-wait.
+* $() is a one-time element handle query that doesn’t retry automatically.
+
+---
+
+### *3. How do you handle authentication in Playwright tests efficiently?*
+
+Use *storage state* to save login session:
+
+ts
+await page.context().storageState({ path: 'auth.json' });
+
+
+and reuse in new tests with storageState: 'auth.json'.
+
+---
+
+### *4. How do you handle API authentication tokens in Playwright API tests?*
+
+Store token after login API call and pass it in headers for subsequent requests:
+
+ts
+await request.get('/endpoint', { headers: { Authorization: `Bearer ${token}` } });
+
+
+---
+
+### *5. How do you run Playwright tests across multiple browsers in GitHub Actions?*
+
+Use *matrix strategy* in workflow:
+
+yml
+strategy:
+  matrix:
+    browser: [chromium, firefox, webkit]
+
+
+and pass --project=${{ matrix.browser }} to npx playwright test.
+
+---
+
+### *6. How do you handle environment-specific configurations in Playwright?*
+
+Use playwright.config.ts with environment variables or .env files.
+
+ts
+baseURL: process.env.BASE_URL || 'http://localhost:3000'
+
+
+---
+
+### *7. How do you reduce flaky tests in Playwright?*
+
+* Use locator() auto-waiting features.
+* Avoid fixed delays (waitForTimeout).
+* Use expect(locator).toBeVisible() instead of sleep.
+
+---
+
+### *8. How do you skip or focus specific tests in Playwright?*
+
+* Skip: test.skip('reason', async () => {})
+* Focus: test.only(async () => {})
+
+---
+
+### *9. How do you integrate Allure Reports with Playwright in CI?*
+
+Install Allure plugin, update playwright.config.ts with reporter:
+
+ts
+reporter: [['allure-playwright'], ['html']]
+
+
+and upload allure-results folder as an artifact in GitHub Actions.
+
+---
+
+### *10. Give an example of combining API + UI testing in a hybrid framework.*
+
+1. Use API to create a new order.
+2. Navigate to the orders page in UI.
+3. Assert that the order is visible.
+   This ensures both backend creation and frontend display work correctly.
+
+---
+
+If you want, I can *merge these 10 with the earlier 15 into a 25-question master “Playwright Interview Quick Sheet”* with clean formatting so it’s easy for your learners to scan in one page before interviews.
+Do you want me to prepare that?
